@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  name: 'quickstartpage',
+  name: 'search',
 };
 </script>
