@@ -8,7 +8,6 @@
 /* eslint-env node */
 /* eslint func-names: 0 */
 /* eslint global-require: 0 */
-const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = function (/* ctx */) {
   return {
@@ -68,10 +67,6 @@ module.exports = function (/* ctx */) {
 
       // https://v1.quasar.dev/quasar-cli/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      chainWebpack(chain) {
-        chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }]);
-      },
     },
 
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
@@ -100,7 +95,7 @@ module.exports = function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: ['Dialog'],
     },
 
     // animations: 'all', // --- includes all animations

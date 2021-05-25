@@ -46,12 +46,20 @@
         <div class="row justify-center q-ma-md">
           <q-input
           v-model="post.location"
+          :loading="locationLoading"
           class='col col-sm-6'
           label="location"
           dense
           >
             <template v-slot:append>
-              <q-btn round dense flat icon="eva-navigation-2-outline" />
+              <q-btn
+              v-if="!locationLoading && locationSupported"
+              @click="getLocation"
+              round
+              dense
+              flat
+              icon="eva-navigation-2-outline"
+              />
             </template>
           </q-input>
       </div>
@@ -81,7 +89,14 @@ export default {
       imageCaptured: false,
       hasCameraSupport: true,
       imageUpload: [],
+      locationLoading: false,
     };
+  },
+  computed: {
+    locationSupported() {
+      if ('geolocation' in navigator) { return true; }
+      return false;
+    },
   },
   methods: {
     initCamera() {
@@ -148,6 +163,36 @@ export default {
       // write the ArrayBuffer to a blob, and you're done
       const blob = new Blob([ab], { type: mimeString });
       return blob;
+    },
+    getLocation() {
+      this.locationLoading = true;
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.getCityAndCountry(position);
+      }, () => {
+        this.locationError();
+      }, { timeout: 7000 });
+    },
+    getCityAndCountry(position) {
+      const apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}}?json=1`;
+      this.$axios.get(apiUrl).then((result) => {
+        this.locationSuccess(result);
+      }).catch(() => {
+        this.locationError();
+      });
+    },
+    locationSuccess(result) {
+      this.post.location = result.data.city;
+      if (result.data.country) {
+        this.post.location += `, ${result.data.country}`;
+      }
+      this.locationLoading = false;
+    },
+    locationError() {
+      this.$q.dialog({
+        title: 'Error',
+        message: 'Could not find your location!',
+      });
+      this.locationLoading = false;
     },
   },
   mounted() {
