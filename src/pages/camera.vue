@@ -64,7 +64,11 @@
           </q-input>
       </div>
       <div class="row justify-center q-mt-lg">
-        <q-btn unelevated rounded color="primary" label="Submit post" />
+        <q-btn
+        unelevated
+        rounded color="primary"
+        label="Submit post"
+        @click="addPost"/>
       </div>
     </div>
   </q-page>
@@ -83,7 +87,7 @@ export default {
         id: uid(),
         caption: '',
         location: '',
-        photo: null,
+        imageUrl: null,
         date: Date.now(),
       },
       imageCaptured: false,
@@ -194,6 +198,23 @@ export default {
       });
       this.locationLoading = false;
     },
+    addPost() {
+      const formData = new FormData()
+      formData.append('id', this.post.id)
+      formData.append('caption', this.post.caption)
+      formData.append('location', this.post.location)
+      formData.append('date', this.post.date)
+      formData.append('file', this.post.imageUrl, this.post.id + '.png')
+
+      this.$axios.post(`${process.env.API}/createPost`, formData).then((res) => {
+        console.log(res)
+      }).catch((error) => [
+        console.log(error)
+      ])
+    }
+  },
+  beforeCreate() {
+    if (!this.$q.localStorage.getItem('isSignIn')) this.$router.push('/login')
   },
   mounted() {
     this.initCamera();

@@ -3,6 +3,15 @@ import VueRouter from 'vue-router';
 
 import routes from './routes';
 
+import GAuth from 'vue-google-oauth2'
+const gauthOption = {
+  clientId: '1068560586730-rs99bir0mtkmhph709nupkjprh2likt0.apps.googleusercontent.com',
+  scope: 'profile email',
+  prompt: 'select_account'
+}
+Vue.use(GAuth, gauthOption)
+
+
 Vue.use(VueRouter);
 
 /*

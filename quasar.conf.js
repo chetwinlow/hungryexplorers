@@ -9,6 +9,9 @@
 /* eslint func-names: 0 */
 /* eslint global-require: 0 */
 
+const API_LOCAL = 'http://localhost:3000'
+const API_PROD = 'https://hungryexplorers-backend.herokuapp.com/'
+
 module.exports = function (/* ctx */) {
   return {
     // https://v1.quasar.dev/quasar-cli/supporting-ts
@@ -48,7 +51,9 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'history', // available values: 'hash', 'history'
-
+      env: {
+        API: API_LOCAL
+      }
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
@@ -95,7 +100,7 @@ module.exports = function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Dialog'],
+      plugins: ['Dialog', 'LocalStorage'],
     },
 
     // animations: 'all', // --- includes all animations

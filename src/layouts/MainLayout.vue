@@ -32,6 +32,15 @@
         to="/"
         class="large-screen-only"
         />
+        <q-btn
+        flat
+        round
+        color="primary"
+        icon="eva-log-out-outline"
+        size = "18px"
+        class="large-screen-only"
+        @click="handleClickSignOut" :disable="!isInit"
+        />
       </q-toolbar>
     </q-header>
 
@@ -93,8 +102,30 @@ export default {
   name: 'MainLayout',
   data() {
     return {
+      isInit: false,
+      isSignIn: true
     };
   },
+  methods: {
+    async handleClickSignOut() {
+      try {
+        await this.$gAuth.signOut()
+        this.isSignIn = this.$gAuth.isAuthorized
+        this.$q.localStorage.set('isSignIn', false)
+        this.$router.push('/login')
+      } catch (error) {
+        // On fail do something
+      }
+    }
+  },
+  mounted(){
+    let that = this
+    let checkGauthLoad = setInterval(function(){
+      that.isInit = that.$gAuth.isInit
+      that.isSignIn = that.$gAuth.isAuthorized
+      if (that.isInit) clearInterval(checkGauthLoad)
+    }, 1000);
+  }
 };
 </script>
 

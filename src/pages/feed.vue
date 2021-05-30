@@ -3,6 +3,7 @@
 
     <div class='row q-col-gutter-lg'>
       <div class='col-12 col-sm-8'>
+        <template v-if="!loadingPosts && posts.length">
         <q-card
         v-for="post in posts"
         :key="post.id"
@@ -19,7 +20,7 @@
             <q-item-section>
               <q-item-label
               class="text-bold">Chetwin</q-item-label>
-              <q-item-label caption>
+              <q-item-label caption> 
                 {{post.location}}
               </q-item-label>
             </q-item-section>
@@ -33,6 +34,35 @@
             <div class="text-caption text-grey">{{post.date | niceDate }}</div>
           </q-card-section>
         </q-card>
+        </template>
+        <template v-else-if="!loadingPosts && !posts.length">
+          <h5 class='text-center text-grey'> No posts yet </h5>
+        </template>
+        <template v-else>
+           <q-card flat bordered >
+            <q-item>
+              <q-item-section avatar>
+                <q-skeleton type="QAvatar" animation="fade" size="40px" />
+              </q-item-section>
+
+              <q-item-section>
+                <q-item-label>
+                  <q-skeleton type="text" animation="fade" />
+                </q-item-label>
+                <q-item-label caption>
+                  <q-skeleton type="text" animation="fade" />
+                </q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-skeleton height="200px" square animation="fade" />
+
+            <q-card-section>
+              <q-skeleton type="text" class="text-subtitle2" animation="fade" />
+              <q-skeleton type="text" width="50%" class="text-subtitle2" animation="fade" />
+            </q-card-section>
+          </q-card>
+        </template>
       </div>
       <div class='col-4 large-screen-only'>
         <q-item class="fixed">
@@ -59,39 +89,43 @@
 import { date } from 'quasar';
 
 export default {
-  name: 'homepage',
+  name: 'feedpage',
   data() {
     return {
-      posts: [
-        {
-          id: 1,
-          caption: 'Golden Gates',
-          date: Date.now(),
-          location: 'Singapore, Singapore',
-          imageUrl: 'https://cdn.quasar.dev/img/parallax2.jpg',
-        },
-        {
-          id: 2,
-          caption: 'Golden Gates',
-          date: Date.now(),
-          location: 'Singapore, Singapore',
-          imageUrl: 'https://cdn.quasar.dev/img/parallax2.jpg',
-        },
-        {
-          id: 3,
-          caption: 'Golden Gates',
-          date: Date.now(),
-          location: 'Singapore, Singapore',
-          imageUrl: 'https://cdn.quasar.dev/img/parallax2.jpg',
-        },
-      ],
-    };
+      posts: [],
+      loadingPosts: false,
+      hello: ''
+    }
   },
+  methods: {
+    getPosts() {
+      this.loadingPosts = true
+      this.$axios.get(`${process.env.API}/posts`).then((res) => {
+        this.posts = res.data
+        this.loadingPosts = false
+      }).catch((error) => {
+          this.$q.dialog({
+            title: "Error",
+            message: "Could not load posts"
+          })
+        this.loadingPosts = false
+      })
+    }
+  },
+
   filters: {
     niceDate(value) {
       return date.formatDate(value, 'MMMM D h:mmA');
     },
   },
+  beforeCreate() {
+    if (!this.$q.localStorage.getItem('isSignIn')) {
+      this.$router.push('/login')
+    }
+  },
+  created() {
+    this.getPosts()
+  }
 };
 </script>
 

@@ -17,10 +17,13 @@
     "mongoose": "^5.12.10",
     "nodemon": "^2.0.7",
     "quasar": "^1.0.0",
+    "vue-google-oauth2": "^1.5.8",
     "vue-i18n": "^8.0.0"
   },
   "devDependencies": {
-    "@quasar/app": "^2.0.0"
+    "@quasar/app": "^2.0.0",
+    "vue-google-auth": "^1.0.5",
+    "vue-google-login": "^2.0.5"
   },
   "browserslist": [
     "ie >= 11",

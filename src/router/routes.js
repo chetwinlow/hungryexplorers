@@ -10,9 +10,15 @@ const routes = [
       { path: '/feed', component: () => import('src/pages/feed.vue') },
     ],
   },
-
   // Always leave this as last one,
   // but you can also remove it
+  {
+    path: '/login',
+    component: () => import('layouts/loginLayout.vue'),
+    children: [
+      { path: '/login', component: () => import('src/pages/loginpage.vue') },
+    ]
+  },
   {
     path: '*',
     component: () => import('pages/Error404.vue'),
