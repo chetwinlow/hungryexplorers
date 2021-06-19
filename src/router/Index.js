@@ -2,18 +2,35 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import routes from './routes';
+import firebase from "firebase/app";
 
-import GAuth from 'vue-google-oauth2'
-const gauthOption = {
-  clientId: '1068560586730-rs99bir0mtkmhph709nupkjprh2likt0.apps.googleusercontent.com',
-  scope: 'profile email',
-  prompt: 'select_account'
-}
-Vue.use(GAuth, gauthOption)
+import "firebase/auth";
+import "firebase/firestore"
+import 'firebase/storage'
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+ const firebaseConfig = {
+  apiKey: "AIzaSyDD9R_vDIugqPppEiViL3MJr32dyf1hQsk",
+  authDomain: "hungry-explorers.firebaseapp.com",
+  projectId: "hungry-explorers",
+  storageBucket: "hungry-explorers.appspot.com",
+  messagingSenderId: "1047572312694",
+  appId: "1:1047572312694:web:63683e79d230e119f3e557",
+  measurementId: "G-PWCJH47LLR"
+};
+// Initialize Firebase
 
 Vue.use(VueRouter);
 
+Vue.prototype.$fb = firebase.initializeApp(firebaseConfig);
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+firebase.auth().languageCode = 'en';
+googleProvider.setCustomParameters({
+  'login_hint': 'user@example.com'
+});
+Vue.prototype.$googleProvider = googleProvider
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation;

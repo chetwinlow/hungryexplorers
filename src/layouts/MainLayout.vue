@@ -29,7 +29,7 @@
         color="primary"
         icon="eva-home-outline"
         size = "18px"
-        to="/"
+        to="/feed"
         class="large-screen-only"
         />
         <q-btn
@@ -39,7 +39,7 @@
         icon="eva-log-out-outline"
         size = "18px"
         class="large-screen-only"
-        @click="handleClickSignOut" :disable="!isInit"
+        @click="handleClickSignOut"
         />
       </q-toolbar>
     </q-header>
@@ -97,35 +97,33 @@
 </template>
 
 <script>
+import googleProvider from '../googleProvider.js'
+import firebase from 'firebase'
 
 export default {
   name: 'MainLayout',
   data() {
     return {
-      isInit: false,
-      isSignIn: true
+      user: ''
     };
   },
   methods: {
     async handleClickSignOut() {
-      try {
-        await this.$gAuth.signOut()
-        this.isSignIn = this.$gAuth.isAuthorized
-        this.$q.localStorage.set('isSignIn', false)
+      firebase.auth().signOut().then(() => {
         this.$router.push('/login')
-      } catch (error) {
-        // On fail do something
-      }
+      }).catch((error) => {
+
+      })
     }
   },
-  mounted(){
-    let that = this
-    let checkGauthLoad = setInterval(function(){
-      that.isInit = that.$gAuth.isInit
-      that.isSignIn = that.$gAuth.isAuthorized
-      if (that.isInit) clearInterval(checkGauthLoad)
-    }, 1000);
-  }
+  beforeMount() {
+    const temp = firebase.auth().currentUser
+    if (temp) {
+    }
+    else {
+      this.$router.push('/login')
+    }
+  },
 };
 </script>
 

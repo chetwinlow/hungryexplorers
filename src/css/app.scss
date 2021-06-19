@@ -21,7 +21,7 @@
 
 .constrain
 {
-    max-width: 975px;
+    max-width: 900px;
     margin: 0 auto
 }
 
@@ -29,4 +29,15 @@
 {
     max-width: 600px;
     margin: 0 auto
+}
+
+.hconstrain
+{
+    max-height: 40px;
+    margin: 0 auto
+}
+
+.captiontextbox
+{
+    height: 10px
 }

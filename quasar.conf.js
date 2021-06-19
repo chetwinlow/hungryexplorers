@@ -10,7 +10,7 @@
 /* eslint global-require: 0 */
 
 const API_LOCAL = 'http://localhost:3000'
-const API_PROD = 'https://hungryexplorers-backend.herokuapp.com/'
+const API_PROD = 'https://hungryexplorers-backend.herokuapp.com'
 
 module.exports = function (/* ctx */) {
   return {
@@ -50,7 +50,7 @@ module.exports = function (/* ctx */) {
 
     // Full list of options: https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
-      vueRouterMode: 'history', // available values: 'hash', 'history'
+      vueRouterMode: 'hash', // available values: 'hash', 'history'
       env: {
         API: API_LOCAL
       }
@@ -96,11 +96,11 @@ module.exports = function (/* ctx */) {
       // (like functional components as one of the examples),
       // you can manually specify Quasar components/directives to be available everywhere:
       //
-      // components: [],
+      //components: [],
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Dialog', 'LocalStorage'],
+      plugins: ['Dialog', 'LocalStorage', 'Notify', 'Loading'],
     },
 
     // animations: 'all', // --- includes all animations
