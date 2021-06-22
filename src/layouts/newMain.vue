@@ -8,6 +8,12 @@
           <q-toolbar-title class="text-grand-hotel text-bold">
               Hungry Explorers
           </q-toolbar-title>
+          <div class="second">
+            <q-btn class='align-left q-pt-md' flat icon-right="eva-calendar-outline" label="Dailies" to='/'/>
+            <q-btn class='align-left q-pt-md' flat icon-right="mail" label="My Feed" to='/feed'/>
+            <q-btn class='align-left q-pt-md' flat icon-right="eva-camera-outline" label="Post" to='/createReview'/>
+            <q-btn class='align-left q-pt-md' flat icon-right="eva-search-outline" label="Search" to='/restaurants'/>
+          </div>
         <q-btn flat class = "justify-right" @click="gotoProfile">
         <q-item class="justify-right">
           <q-item-section avatar>
@@ -25,12 +31,6 @@
         </q-item>
         </q-btn>
         <q-btn flat icon="eva-log-out-outline" size="18px"  @click='handleClickSignOut'/>
-      </q-toolbar>
-      <q-toolbar class='row-4'>
-        <q-btn class='align-left q-pt-md' flat icon-right="eva-calendar-outline" label="Dailies" to='/'/>
-        <q-btn class='align-left q-pt-md' flat icon-right="mail" label="My Feed" to='/feed'/>
-        <q-btn class='align-left q-pt-md' flat icon-right="eva-camera-outline" label="Post" to='/createReview'/>
-        <q-btn class='align-left q-pt-md' flat icon-right="eva-search-outline" label="Search" to='/restaurants'/>
       </q-toolbar>
     </q-header>
 
@@ -81,6 +81,10 @@ export default {
 </script>
 
 <style lang=scss>
+.second{
+  position: relative;
+  right: 100px;
+}
   .q-toolbar
     {
       background-color: #E4DBDE;

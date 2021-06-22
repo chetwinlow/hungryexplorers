@@ -22,3 +22,8 @@ $positive  : #21BA45;
 $negative  : #C10015;
 $info      : #31CCEC;
 $warning   : #F2C037;
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swp');
+$typography-font-family : 'Open Sans', sans-serif !default;
+$text-weights: (thin: 300, light: 400, regular: 600, medium: 700, bold: 800, bolder: 800) !default;
+$button-font-weight: 500;
